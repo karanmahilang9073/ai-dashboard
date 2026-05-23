@@ -1,36 +1,7 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+This project is a **Full-Stack AI Dashboard SaaS application built with Next.js App Router** to learn real-world development concepts by creating an actual project. The application starts with a dashboard that contains a **Navbar, Sidebar, and reusable cards** showing statistics like users, notes, and files. We learned how to build reusable components using **props**, organize code into separate folders, and structure the application using the **App Router**. We also created multiple routes such as Dashboard, Notes, About, Login, and Signup pages. Dynamic routing was implemented using `[new]` folders, and route groups `(auth)` were used to keep authentication pages organized with a separate layout. Custom layouts and `loading.tsx` were added to understand how Next.js handles page structure and loading states.
 
-First, run the development server:
+The authentication section contains **Signup and Login pages**. Signup uses **controlled form inputs with useState**, where users enter name, email, and password. We added **form validation, loading state, disabled button state, success alerts, error handling, and redirection** for a better user experience. The signup form sends data using `fetch()` to a custom **Next.js API route** (`/api/signup`) where backend processing is simulated. We also created another API route (`/api/hello`) and separated reusable data inside `lib/data.ts` to understand code organization. User information is temporarily stored using **localStorage**, allowing the dashboard to display a personalized welcome message after signup. A Logout feature removes stored data and redirects the user back to login. Throughout the project we learned important Next.js concepts including **components, props, layouts, route groups, dynamic routes, API routes, environment variables, client components, state management, navigation, local storage, and frontend-backend communication**. Future improvements include adding a **real database, authentication system, CRUD features, AI integration, file uploads, payments, and deployment**, turning it into a complete production-style SaaS application.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+add mongodb connection later
