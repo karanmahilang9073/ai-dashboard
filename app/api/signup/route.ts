@@ -1,6 +1,14 @@
-export async function POST(request: Request){
-    const body = await request.json()
-    console.log(body)
+import { User } from "@/lib/models/User"
+import { connectDB } from "@/lib/mongodb"
 
-    return Response.json({success: true})
+export async function POST(request: Request) {
+    await connectDB()
+    const body = await request.json()
+    const {name, email, password} = body
+    try {
+      const user = await User.create({name, email, password})
+      return Response.json({success: true, user})
+    } catch (error) {
+      return Response.json({success: false},{status: 400})
+    }
 }
