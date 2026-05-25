@@ -13,6 +13,7 @@ export async function POST(request: Request){
         }
         return Response.json({success: true, name: user.name, email: user.email})
     } catch (error) {
+        console.log('error while login', error)
         return Response.json({success: false}, {status: 400})
     }
 }
