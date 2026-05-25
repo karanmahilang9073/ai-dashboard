@@ -16,6 +16,10 @@ function Login() {
       body: JSON.stringify({email, password})
     })
     const data = await res.json()
+    if(!data.success){
+      alert('lohin falied')
+      return
+    }
     localStorage.setItem("username", data.name)
     router.push("/")
   }
