@@ -27,6 +27,13 @@ function Notespage() {
     fetchNotes()
   }
 
+  const handleDelete = async(noteId: string) => {
+    await fetch(`/api/notes/${noteId}`, {
+      method: 'DELETE'
+    })
+    fetchNotes()
+  }
+
 
   return (
     <div className="p-6">
@@ -42,9 +49,12 @@ function Notespage() {
 
         <div>
           {notes.map((note: {_id:string, title: string, content: string}) => (
-            <div key={note._id} className="border p-4 mb-2 rounded">
-              <h2 className="font-bold">{note.title}</h2>
-              <p>{note.content}</p>
+            <div key={note._id} className="border p-4 mb-2 rounded flex justify-between items-center">
+              <div>
+                <h2 className="font-bold">{note.title}</h2>
+                <p>{note.content}</p>
+              </div>
+              <button onClick={() => handleDelete(note._id)} className="bg-red-500 text-white p-2 rounded">Delete</button>
             </div>
           ))}
         </div>
