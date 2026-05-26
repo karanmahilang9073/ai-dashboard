@@ -20,6 +20,7 @@ function Login() {
       alert('lohin falied')
       return
     }
+    localStorage.setItem('token', data.token)
     localStorage.setItem("username", data.name)
     router.push("/")
   }

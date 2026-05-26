@@ -25,7 +25,13 @@ function Signup() {
         })
         const data = await res.json()
         console.log(data)
-        localStorage.setItem("username", name)
+        if(!data.success){
+            alert('signup failed')
+            setLoading(false)
+            return
+        }
+        localStorage.setItem("token", data.token)
+        localStorage.setItem("username", data.name)
         router.push("/")
         setLoading(false)
         setName("")
