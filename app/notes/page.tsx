@@ -15,15 +15,19 @@ function Notespage() {
   },[])
 
   const fetchNotes = async() => {
-    const res = await fetch(`/api/notes`)
+    const token = localStorage.getItem('token')
+    const res = await fetch(`/api/notes`,{
+      headers: {"Authorization": `Bearer ${token}`}
+    })
     const data = await res.json()
     setNotes(data.notes || [])
   }
 
   const handleCreate = async() => {
+    const token = localStorage.getItem('token')
     await fetch('/api/notes', {
       method: 'POST',
-      headers: {"content-Type" : "application/json"},
+      headers: {"Authorization" : `Bearer ${token}`, "Content-Type" : "application/json"},
       body: JSON.stringify({title, content})
     })
     setTitle("")
@@ -40,7 +44,7 @@ function Notespage() {
   const handleSave = async() => {
     await fetch(`/api/notes/${editId}`, {
       method: 'PUT',
-      headers: {'content-Type': 'application/json'},
+      headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({title: editTitle, content: editContent})
     })
     setEditId("")

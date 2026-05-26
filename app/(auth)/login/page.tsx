@@ -12,12 +12,12 @@ function Login() {
   const handleLogin = async() => {
     const res = await fetch('/api/login', {
       method: "POST",
-      headers: {"content-Type": "application/json"},
+      headers: {"Content-Type": "application/json"},
       body: JSON.stringify({email, password})
     })
     const data = await res.json()
     if(!data.success){
-      alert('lohin falied')
+      alert('login failed')
       return
     }
     localStorage.setItem('token', data.token)
