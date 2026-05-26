@@ -52,10 +52,24 @@ function Notespage() {
   }
 
   const handleDelete = async(noteId: string) => {
+    const token = localStorage.getItem('token')
     await fetch(`/api/notes/${noteId}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: {'Authorization': `Bearer ${token}`}
     })
     fetchNotes()
+  }
+
+  const handleSummarize = async(noteContent: string) => {
+    const res = await fetch('/api/ai/summarize', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({content: noteContent})
+    })
+    const data = await res.json()
+    if(data.success) {
+      alert(data.summary)
+    }
   }
 
 
@@ -89,6 +103,7 @@ function Notespage() {
               <div className="flex gap-2">
                 <button onClick={() => handleEdit(note._id, note.title, note.content)} className="bg-blue-500 text-white p-2 rounded">Edit</button>
                 <button onClick={() => handleDelete(note._id)} className="bg-red-500 text-white p-2 rounded">Delete</button>
+                <button onClick={() => handleSummarize(note.content)} className="bg-green-500 text-white p-2 rounded">Summarize</button>
               </div>
             </div>
             )
