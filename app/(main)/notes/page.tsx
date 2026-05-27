@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react"
 
 function Notespage() {
-  const [notes, setNotes] = useState([])
+  const [notes, setNotes] = useState<{_id: string, title: string, content: string, attachments: {url: string, filename: string}[]}[]>([])
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
   const [url, setUrl] = useState("")
@@ -11,6 +11,8 @@ function Notespage() {
   const [editId, setEditId] = useState("")
   const [editTitle, setEdittitle] = useState("")
   const [editContent, setEditcontent] = useState("")
+
+  const [search, setSearch] = useState("")
 
   useEffect(() => {
     fetchNotes()
@@ -106,14 +108,16 @@ function Notespage() {
         <div className="border p-4 mb-6 rounded">
           <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} className="border p-2 w-full mb-2" />
           <textarea placeholder="content" value={content} onChange={(e) => setContent(e.target.value)} className="border p-2 w-full mb-2"></textarea>
-          <input type="file" onChange={upload} className="border p-2 w-full mb-2" />
-          <button onClick={handleCreate} key={url} disabled={uploading} className="bg-black text-white p-2 rounded">
+          <input type="file" onChange={upload} className="border p-2 w-full mb-2" key={url} />
+          <button onClick={handleCreate} disabled={uploading} className="bg-black text-white p-2 rounded">
             Create Note
           </button>
         </div>
 
+        <input type="text" placeholder="search notes..." value={search} onChange={(e) => setSearch(e.target.value)} className="border p-2 w-full mb-4 rounded-3xl" />
+
         <div>
-          {notes.map((note: {_id:string, title: string, content: string, attachments: {url: string, filename: string}[]}) => (
+          {notes.filter(note => note.title.toLowerCase().includes(search.toLowerCase()) || note.content.toLowerCase().includes(search.toLowerCase())).map((note: {_id: string, title: string, content: string, attachments: {url: string, filename: string}[]}) => (
             
             editId === note._id ? (
               <div key={note._id} className="border p-4 mb-2 rounded">

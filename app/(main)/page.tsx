@@ -1,7 +1,5 @@
 "use client"
 import Card from "@/components/Card"
-import Navbar from "@/components/Navbar"
-import Sidebar from "@/components/Sidebar"
 import { useEffect, useState } from "react"
 
 const Page = () => {
@@ -20,20 +18,13 @@ const Page = () => {
     fetchStats()
   },[])
 
-
   return (
-    <div>
-      <Navbar/>
-      <div className="flex">
-        <Sidebar/>
-        <div className="p-6">
-          <h1 className="text-3xl font-semibold">Welcome, {username}</h1>
-          <div className="grid grid-cols-3 gap-4 mt-4">
-            <Card title="users" value={stats.users.toString()} />
-            <Card title="Notes" value={stats.notes.toString()} />
-            <Card title="Files" value="0"/>
-          </div>
-        </div>
+    <div className="p-6">
+      <h1 className="text-3xl font-semibold">Welcome, {username}</h1>
+      <div className="grid grid-cols-3 gap-4 mt-4">
+        <Card title="users" value={stats.users.toString()} />
+        <Card title="Notes" value={stats.notes.toString()} />
+        <Card title="Files" value="0"/>
       </div>
     </div>
   )

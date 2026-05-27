@@ -2,6 +2,7 @@ import { Note } from "@/lib/models/Note";
 import { connectDB } from "@/lib/mongodb";
 import jwt from "jsonwebtoken";
 
+
 export async function POST(request: Request) {
   await connectDB();
   const body = await request.json();
