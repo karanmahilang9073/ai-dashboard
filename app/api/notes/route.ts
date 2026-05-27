@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 export async function POST(request: Request) {
   await connectDB();
   const body = await request.json();
-  const { title, content } = body;
+  const { title, content, attachments } = body;
   try {
     const authHeader = request.headers.get("authorization");
 
@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     };
 
     const userId = payload.userId;
-    const note = await Note.create({ title, content, userId });
+    const note = await Note.create({ title, content, userId, attachments });
     return Response.json({ success: true, note });
   } catch (error) {
     console.log("error while creating notes", error);

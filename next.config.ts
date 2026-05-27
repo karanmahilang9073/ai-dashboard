@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   experimental : {
     turbopackFileSystemCacheForDev: true
+  },
+  images: {
+    domains: ['res.cloudinary.com']
   }
 };
 

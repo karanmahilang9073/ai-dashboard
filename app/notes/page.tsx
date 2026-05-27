@@ -1,10 +1,12 @@
 "use client"
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 
 function Notespage() {
   const [notes, setNotes] = useState([])
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
+  const [url, setUrl] = useState("")
+  const [uploading, setUploading] = useState(false)
 
   const [editId, setEditId] = useState("")
   const [editTitle, setEdittitle] = useState("")
@@ -21,17 +23,20 @@ function Notespage() {
     })
     const data = await res.json()
     setNotes(data.notes || [])
-  }
+  } 
 
   const handleCreate = async() => {
     const token = localStorage.getItem('token')
+    const attachments = url ? [{url: url, filename: 'image'}] : []
     await fetch('/api/notes', {
       method: 'POST',
       headers: {"Authorization" : `Bearer ${token}`, "Content-Type" : "application/json"},
-      body: JSON.stringify({title, content})
+      body: JSON.stringify({title, content, attachments})
     })
+    console.log('Attachments:', attachments)
     setTitle("")
     setContent("")
+    setUrl("")
     fetchNotes()
   }
 
@@ -49,6 +54,28 @@ function Notespage() {
     })
     setEditId("")
     fetchNotes()
+  }
+
+  const upload = async(e: React.ChangeEvent<HTMLInputElement>) => {
+    setUploading(true)
+    const file = e.target.files?.[0]
+    if(!file) {
+      setUploading(false)
+      return
+    }
+    const formData = new FormData()
+    formData.append('file', file)
+    const res = await fetch('/api/upload', {
+      method: 'POST',
+      body: formData
+    })
+    const data = await res.json()
+    if(data.success) {
+      setUrl(data.url)
+      console.log('URL set:', data.url)
+      alert('file uploaded')
+    }
+    setUploading(false)
   }
 
   const handleDelete = async(noteId: string) => {
@@ -72,7 +99,6 @@ function Notespage() {
     }
   }
 
-
   return (
     <div className="p-6">
         <h1 className="text-3xl font-bold">Notes</h1>
@@ -80,13 +106,15 @@ function Notespage() {
         <div className="border p-4 mb-6 rounded">
           <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} className="border p-2 w-full mb-2" />
           <textarea placeholder="content" value={content} onChange={(e) => setContent(e.target.value)} className="border p-2 w-full mb-2"></textarea>
-          <button onClick={handleCreate} className="bg-black text-white p-2 rounded">
+          <input type="file" onChange={upload} className="border p-2 w-full mb-2" />
+          <button onClick={handleCreate} key={url} disabled={uploading} className="bg-black text-white p-2 rounded">
             Create Note
           </button>
         </div>
 
         <div>
-          {notes.map((note: {_id:string, title: string, content: string}) => (
+          {notes.map((note: {_id:string, title: string, content: string, attachments: {url: string, filename: string}[]}) => (
+            
             editId === note._id ? (
               <div key={note._id} className="border p-4 mb-2 rounded">
                 <input type="text" value={editTitle} onChange={(e) => setEdittitle(e.target.value)} className="border py-2 w-full mb-2" />
@@ -99,6 +127,9 @@ function Notespage() {
               <div>
                 <h2 className="font-bold">{note.title}</h2>
                 <p>{note.content}</p>
+                {note.attachments && note.attachments[0] && (
+                  <img src={note.attachments[0].url} alt="attachment" className="w-60 mt-2 rounded" />
+                )}
               </div>
               <div className="flex gap-2">
                 <button onClick={() => handleEdit(note._id, note.title, note.content)} className="bg-blue-500 text-white p-2 rounded">Edit</button>
