@@ -5,7 +5,7 @@ export default function Sidebar() {
     <aside className="w-60 h-screen border-r p-4">
       <ul className="space-y-4">
         <li>
-          <Link href='/about'>Dashboard</Link>
+          <Link href='/'>Dashboard</Link>
         </li>
         <li>
           <Link href='/notes'>Notes</Link>
