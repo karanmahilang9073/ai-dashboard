@@ -8,6 +8,7 @@ const Page = () => {
   
   useEffect(() => {
     const stored = localStorage.getItem("username")
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if(stored) setusername(stored)
 
     const fetchStats = async() => {
@@ -19,12 +20,17 @@ const Page = () => {
   },[])
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-semibold">Welcome, {username}</h1>
-      <div className="grid grid-cols-3 gap-4 mt-4">
-        <Card title="users" value={stats.users.toString()} />
-        <Card title="Notes" value={stats.notes.toString()} />
-        <Card title="Files" value="0"/>
+    <div className="min-h-screen bg-linear-to-br from-gray-50 to-gray-100">
+      <div className="max-w-6xl mx-auto px-6 py-12 space-y-8">
+        <div>
+          <h1 className="text-4xl font-bold text-gray-900">Welcome, {username}</h1>
+          <p className="text-gray-600 mt-2">here is your dashboard overview</p>
+        </div>
+        <div className="grid grid-cols-3 gap-6">
+          <Card title="users" value={stats.users.toString()} />
+          <Card title="Notes" value={stats.notes.toString()} />
+          <Card title="files" value="0" />
+        </div>
       </div>
     </div>
   )
