@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI-SAAS Dashboard",
+  title: "NotePro",
   description: "The Hub for every Dev event you mustn't miss",
 };
 
