@@ -3,7 +3,7 @@ import Card from "@/components/Card"
 import { useEffect, useState } from "react"
 
 const Page = () => {
-  const [stats, setStats] = useState({users:0, notes:0})
+  const [stats, setStats] = useState({users:0, notes:0, files: 0})
   const [username, setusername] = useState("")
   
   useEffect(() => {
@@ -29,7 +29,7 @@ const Page = () => {
         <div className="grid grid-cols-3 gap-6">
           <Card title="users" value={stats.users.toString()} />
           <Card title="Notes" value={stats.notes.toString()} />
-          <Card title="files" value="0" />
+          <Card title="files" value={stats.files.toString()} />
         </div>
       </div>
     </div>
