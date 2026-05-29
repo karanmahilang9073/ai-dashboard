@@ -16,6 +16,8 @@ function Notespage() {
 
   const [showForm, setShowForm] = useState(false)
 
+  const [generate, setgenerate] = useState("")
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/immutability
     fetchNotes()
@@ -104,15 +106,36 @@ function Notespage() {
     }
   }
 
+  const handleGenerate = async() => {
+    const res = await fetch('/api/ai/generate', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({prompt: generate})
+    })
+    const data = await res.json()
+    if(data.success) {
+      setContent(data.content)
+      setgenerate("")
+    }
+  }
+
   return (
     <div className="p-6">
         <h1 className="text-3xl font-bold">Notes</h1>
 
         {showForm && (
+          // generate form
           <div className="border p-4 mb-6 rounded">
             <div className="border p-4 mb-6 rounded">
               <input type="text" placeholder="Title" value={title} onChange={(e) => setTitle(e.target.value)} className="border p-2 w-full mb-2" />
               <textarea placeholder="content" value={content} onChange={(e) => setContent(e.target.value)} className="border p-2 w-full mb-2"></textarea>
+
+              {/* generate note */}
+              <div className="bg-purple-50 p-3 rounded mb-2 border border-purple-200">
+                <p className="text-sm font-semibold text-purple-700 mb-2">or generate content</p>
+                <input type="text" placeholder="enter prompt.." value={generate} onChange={(e) => setgenerate(e.target.value)} className="border p-2 w-full mb-2" />
+                <button onClick={handleGenerate} className="bg-purple-500 hover:bg-purple-600 text-white p-2 rounded w-full">generate</button>
+              </div>
               <input type="file" onChange={upload} className="border p-2 w-full mb-2" key={url} />
               <div className="flex gap-3">
                 <button onClick={handleCreate} disabled={uploading} className="bg-green-500 hover:bg-green-600 text-white p-2 rounded">

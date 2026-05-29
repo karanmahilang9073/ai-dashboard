@@ -9,7 +9,7 @@ export default function Mainlayout({children} : {children: React.ReactNode}) {
             <Navbar/>
             <div className="flex">
                 <Sidebar/>
-                <div className="w-full">{children}</div>
+                <div className="flex-1 ml-60">{children}</div>
             </div>
         </div>
     )
